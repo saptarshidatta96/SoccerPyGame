@@ -1,58 +1,51 @@
 import pygame
+import pygame.mixer
+from pygame.locals import *
 import random
-import math
-
+import utils
+from utils import *
 
 pygame.init()  
-red = (255, 0, 0)
-blue = (0, 0, 255)
-black = (0, 0 ,0)
-width, height = 570, 726
-center_x, center_y = width /2, height /2
-screen = pygame.display.set_mode((width,height)) 
-pygame.display.set_caption('Let’s Play Soccer')  
-image = pygame.image.load(r'AI2_Assignment1_T3_2021.png')  
-done = False  
-  
+
+done = False 
 while not done: 
-    #gx = random.randint(-100,100) 
-    #gy = random.randint(-300,-200)
-    #co-ordinates for players at goal area 
-    gx1 = random.randint(100,450) 
-    gy1 = random.randint(50,160)
-    gx2 = random.randint(100,450) 
-    gy2 = random.randint(50,160) 
-    # Co-ordinates for ball
-    bx = random.randint(50,520)
-    by = random.randint(50,343)
-    #players in red zone
-    rx = random.randint(-100,100)
-    ry = random.randint(-150,0)
-    screen.blit(image, (0, 0))
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:  
             done = True  
-    keys = pygame.key.get_pressed()
-    pygame.time.Clock().tick(5)
-    pygame.draw.circle(screen, (0,255, 0), [50, 50], 20)
-    #ball
-    pygame.draw.circle(screen, black, [center_x, center_y-4], 10)
-    #center
-    pygame.draw.circle(screen, blue, [center_x, center_y+14], 17)
-    for key in keys:
-        if keys[pygame.K_UP]:
-            #ball
-            pygame.draw.circle(screen, black, [bx, by], 10)
-            #Red Goal Area
-            #pygame.draw.circle(screen, blue, [center_x+gx/2, center_y+gy+gy/5], 17)
-            #pygame.draw.circle(screen, red, [center_x+gx+gx/5, center_y+gy+gy/3], 17)
-            pygame.draw.circle(screen, red, [gx1, gy1], 20)
-            pygame.draw.circle(screen, blue, [gx2, gy2], 20)
-            #Red Area
-            pygame.draw.circle(screen, blue, [center_x+rx, center_y+ry], 17)
-            pygame.draw.circle(screen, red, [center_x+rx/2, center_y+ry/5], 17)
-            pygame.draw.circle(screen, blue, [center_x+rx+rx/7, center_y+ry/9], 17)
-            pygame.draw.circle(screen, red, [center_x+rx+rx/6, center_y+ry+ry/5], 17)
+    gx1, gy1, gx2, gy2, bx, by, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4 = generate_randomized_positions()
+    refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+    pygame.time.Clock().tick(1)
+    key = pygame.mouse.get_pressed()
+
+    if key == (1,0,0):
+        draw_ball(center_x, center_y)
+        refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+        arg_min_dist = calc_min_dist(center_x, center_y, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+        if arg_min_dist == 0:
+            draw_ball(rx1, ry1)
+            new_arg_min = calc_min_dist(rx1, ry1, gx2, gy2)
+            refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+            draw_ball(gx2, gy2)
+            detect_goal(gx2, gy2)
+                
+        elif arg_min_dist == 1:
+            draw_ball(rx2, ry2)
+            new_arg_min = calc_min_dist(rx2, ry2, gx2, gy2)
+            refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+            draw_ball(gx2, gy2)
+            detect_goal(gx2, gy2)
+        elif arg_min_dist == 2:
+            draw_ball(rx3, ry3)
+            new_arg_min = calc_min_dist(rx3, ry3, gx2, gy2)
+            refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+            draw_ball(gx2, gy2)
+            detect_goal(gx2, gy2)
+        else:
+            draw_ball(rx4, ry4)
+            new_arg_min = calc_min_dist(rx4, ry4, gx2, gy2)
+            refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
+            draw_ball(gx2, gy2)
+            detect_goal(gx2, gy2)
 
     pygame.display.update()
     pygame.display.flip() 
