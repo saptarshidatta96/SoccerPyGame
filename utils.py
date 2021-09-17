@@ -17,22 +17,20 @@ def refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, r
     screen.blit(image, (0, 0))
     draw_players(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
 
-def display_goal():
+def display_goal(distance):
     myfont = pygame.font.SysFont("monospace", 50)
     label = myfont.render("Goal", 1, (255,255,0))
     screen.blit(label, (100, 100))
+    print(distance)
 
-def detect_goal(gx2, gy2):
+def detect_goal(gx2, gy2, distance):
     if gx2 in range(240, 340) and gy2 in range(0, 50):
         print('Goal')
-        display_goal()
+        display_goal(distance)
 
 def calc_distance(x1, y1, x2, y2):
     d = math.sqrt((x1-x2)**2 + (y1-y2)**2)
     return d
-
-def print_cost():
-    pass
 
 def calc_min_dist(*argv):
     arguments = [x for x in argv]
@@ -42,7 +40,7 @@ def calc_min_dist(*argv):
         d = calc_distance(arguments[0], arguments[1], arguments[i], arguments[i+1])
         distance.append(d)
     min_dist_arg = np.argmin(distance)
-    return min_dist_arg
+    return min_dist_arg, distance[min_dist_arg]
 
 def draw_players(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4):
     #center blue player
@@ -78,3 +76,4 @@ def generate_randomized_positions():
     ry4 = random.randint(180, 343)
 
     return gx1, gy1, gx2, gy2, bx, by, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4
+
