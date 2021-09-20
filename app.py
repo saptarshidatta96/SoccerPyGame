@@ -26,28 +26,28 @@ while not done:
             new_arg_min, distance = calc_min_dist(rx1, ry1, gx2, gy2)
             refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
             draw_ball(gx2, gy2)
-            detect_goal(gx2, gy2, distance)
+            detect_goal(gx2, gy2, distance  + _)
                 
         elif arg_min_dist == 1:
             draw_ball(rx2, ry2)
             new_arg_min, distance = calc_min_dist(rx2, ry2, gx2, gy2)
             refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
             draw_ball(gx2, gy2)
-            detect_goal(gx2, gy2, distance)
+            detect_goal(gx2, gy2, distance  + _)
 
         elif arg_min_dist == 2:
             draw_ball(rx3, ry3)
             new_arg_min, distance = calc_min_dist(rx3, ry3, gx2, gy2)
             refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
             draw_ball(gx2, gy2)
-            detect_goal(gx2, gy2, distance)
+            detect_goal(gx2, gy2, distance  + _)
 
         else:
             draw_ball(rx4, ry4)
             new_arg_min, distance = calc_min_dist(rx4, ry4, gx2, gy2)
             refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
             draw_ball(gx2, gy2)
-            detect_goal(gx2, gy2, distance)
+            detect_goal(gx2, gy2, distance  + _)
 
     pygame.display.update()
     pygame.display.flip() 
