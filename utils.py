@@ -3,6 +3,7 @@ import numpy as np
 import random
 import pygame
 import pygame.mixer
+import time
 from pygame.locals import *
 
 red = (255, 0, 0)
@@ -13,6 +14,11 @@ center_x, center_y = width /2, height /2
 screen = pygame.display.set_mode((width,height)) 
 image = pygame.image.load(r'AI2_Assignment1_T3_2021.png')  
 
+def display_player_with_ball(x, y):
+    myfont = pygame.font.SysFont("monospace", 50)
+    ball = myfont.render("Ball", 1, (255,255,0))
+    screen.blit(ball, (x, y))
+
 def refresh_screen(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4):
     screen.blit(image, (0, 0))
     draw_players(center_x, center_y, gx1, gy1, gx2, gy2, rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4)
@@ -22,12 +28,13 @@ def display_goal(distance):
     label = myfont.render("Goal", 1, (255,255,0))
     screen.blit(label, (100, 100))
     print(distance)
+   
 
 def detect_goal(gx2, gy2, distance):
     if gx2 in range(240, 340) and gy2 in range(0, 50):
         print('Goal')
         display_goal(distance)
-
+      
 def calc_distance(x1, y1, x2, y2):
     d = math.sqrt((x1-x2)**2 + (y1-y2)**2)
     return d
